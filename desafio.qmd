@@ -1,0 +1,18 @@
+---
+title: "desafio"
+format: html
+---
+
+# Desafio
+
+# Construir um histograma de frequência
+
+# Construir um boxplot
+
+# Calcular as principais estatísticas descritivas
+
+# Final
+
+Com base no conjunto de dados `"flax_grains.csv"`, construir uma função para provar o conceito de probabilidade da distribuição normal, provando a probabilidade de se amostrar desta população um grão com comprimento que vai de 3,7 a 4,0 cm.
+
+

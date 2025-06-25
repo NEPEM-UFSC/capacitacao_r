@@ -1,0 +1,255 @@
+---
+title: "(R)eflexões sobre a linguagem R"
+format: revealjs
+---
+
+## Introdução
+
+Nesta apresentação, vamos explorar a história da linguagem R e seus fundamentos, contextualizando seu papel na análise de dados e pesquisa científica.
+
+---
+
+## Origens da linguagem R
+
+- O artigo [R: A Language for Data Analysis and Graphics](https://www.jstor.org/stable/1390807?seq=1#page_scan_tab_contents)[^1], escrito pelos desenvolvedores da linguagem `George Ross Ihaka` e `Robert Clifford Gentleman`, marca o início de uma nova era no processamento e análise de dados: o desenvolvimento do software R.
+- Inspirada nas linguagem **Scheme** (1975) e **S** (1985).
+- Nome "R" em homenagem aos nomes dos criadores e como referência à linguagem S.
+
+[^1]: https://www.jstor.org/stable/1390807?seq=1#page_scan_tab_contents
+
+![Criadores do R](figs/autores_r.png)
+
+---
+
+## Filosofia do R
+
+- Software livre e de código aberto (licença GPL).
+- Suportado pela comunidade e mantido pelo **R Core Team**.
+- Projetado para análise estatística, visualização de dados e reprodutibilidade.
+
+---
+
+## Evolução da linguagem
+
+- 1995: Primeira versão pública do R.
+- 2000: R 1.0.0 é lançado oficialmente.
+- Crescimento exponencial em pacotes, usuários e contribuições.
+- Surgimento do CRAN (Comprehensive R Archive Network) como repositório central.
+
+---
+
+## Comunidade e ecossistema
+
+- Mais de 20.000 pacotes disponíveis no CRAN.
+- Uso difundido em estatística, bioinformática, economia, agronomia, etc.
+- Ferramentas modernas: RStudio, Positron, Tidyverse, Quarto, Shiny.
+
+---
+
+## Uma visão geral (R)
+
+```{r}
+#| echo: false
+
+
+## Downloads in the specified time interval
+library(cranlogs)
+library(tidyverse)
+library(scales)
+library(glue)
+# dfc <- cran_downloads("R", from = "2000-01-01", to = "2025-06-25")
+df2 <- read.csv("download_r.csv")
+# df2 <- 
+#   dfp |> 
+#   filter(count != 0 & os != "NA") |> 
+#   mutate(date = ymd(date)) |> 
+#   group_by(date, os) |> 
+#   summarise(count = sum(count, na.rm = TRUE))
+
+# write.csv(df2, "download_r.csv")
+
+
+ggplot(df2, aes(date, count)) +
+  geom_smooth(aes(color = os), se = FALSE) +
+  labs(x = "Data",
+       y = "Número de downloads do software R") +
+  theme_minimal() +
+  labs(title = glue::glue("Número total de downloads do R: {sum(df2$count)}"))
+
+```
+
+
+
+---
+
+## Uma visão geral (pacotes)
+```{r}
+library(rvest)
+library(httr)
+library(stringr)
+library(lubridate)
+library(dplyr)
+library(furrr)
+library(tibble)
+library(future)
+library(scales)
+## Downloads in the specified time interval
+# dfp <- cran_downloads(from = "2000-01-01", to = "2025-06-25")
+
+# df2 <- 
+#   dfp |> 
+#   filter(count != 0) |> 
+#   mutate(date = ymd(date))
+
+# write.csv(df2, "download_pack.csv")
+df2 <- read.csv("download_pack.csv")
+
+
+# first_pub_date_r <- function(pkg = NULL, .parallel = TRUE, .workers = NULL) {
+#   pkgs <- 
+#     available.packages() |> 
+#     as.data.frame() |> 
+#     rownames_to_column("pkgname")
+#   
+#   if(!is.null(pkg)){
+#     pkgs <- 
+#       pkgs |> 
+#       dplyr::filter(pkgname %in% pkg)
+#   }
+#   
+#   get_pub_date <- function(pkg){
+#     url <- paste0("https://cran.r-project.org/src/contrib/Archive/", pkg, "/")
+#     # Read page and extract the table rows
+#     if(http_error(url)){
+#       url <- paste0("https://cran.r-project.org/web/packages/", pkg, "/") 
+#       page <- read_html(url)
+#       rows <- html_elements(page, "tr")
+#       published_row <- rows[which(
+#         rows |> html_text2() |> str_detect("^Published:")
+#       )]
+#       tds <- html_elements(published_row, "td")
+#       page <- html_text(tds[[2]]) |> str_trim()
+#     } else{
+#       page <- 
+#         read_html(url) |> 
+#         html_elements("table tr") |> 
+#         (\(x) x[[4]])() |> 
+#         html_text() |> 
+#         str_trim() |> 
+#         str_extract("\\d{4}-\\d{2}-\\d{2}")
+#     }
+#     return(page)
+#   }
+#   
+#   # Set parallel backend
+#   if (.parallel) {
+#     if (!is.null(.workers)) {
+#       plan(multisession, workers = .workers)
+#     } else {
+#       plan(multisession)
+#     }
+#   }
+#   
+#   dates <- future_map_chr(pkgs$pkg, get_pub_date, .progress = TRUE)
+#   
+#   return(data.frame(pkg = pkgs$pkg, pub_date = dates))
+#   
+# }
+# 
+# 
+# a <- first_pub_date_r(.workers = 10)
+# write.csv(a, "pub_date.csv")
+b <- 
+  read.csv("pub_date.csv") |> 
+  mutate(date = ymd(pub_date))
+
+ggplot(b, aes(x = date)) +
+  geom_histogram()
+
+
+```
+
+---
+
+## Top pacotes
+```{r}
+
+```
+
+
+---
+
+## Uma visão geral (pacotes)
+
+```{r}
+# ## Downloads in the specified time interval
+# dfp <- cran_downloads(from = "2000-01-01", to = "2025-06-25")
+# 
+# df2 <- 
+#   dfp |> 
+#   filter(count != 0) |> 
+#   mutate(date = ymd(date))
+
+# write.csv(df2, "download_pack.csv")
+df <- 
+  read.csv("download_pack.csv") |> 
+  mutate(date = ymd(date))
+
+
+# download pacotes
+ggplot(df, aes(date, count)) +
+  geom_smooth() +
+  labs(x = "Data",
+       y = "Número de downloads de pacotes") +
+  theme_minimal() +
+  labs(title = glue("Número de downloads total: {comma(sum(df$count), big.mark = '.')}"))
+
+```
+
+---
+
+## 🧪 Pesquisa
+
+- 🔬 **Pesquisa**:  
+  Aplicações em melhoramento genético, experimentação agrícola, estatística multivariada e fenotipagem de alto rendimento.  
+  - Pacotes: `metan`, `pliman`, `FieldimageR`, `agricolae`, `lme4`, `emmeans`.
+
+## 🎓 Ensino
+
+- 📚 **Ensino**:  
+  Aprendizado prático de estatística e análise de dados.  
+  - `AgroR`: interface amigável para análises clássicas.  
+  - `learnr` e `shiny`: tutoriais e apps educacionais interativos.
+
+## 🧪 Extensão
+
+- 🌍 **Extensão**:  
+  Conexão entre ciência e sociedade por meio de dashboards acessíveis.  
+  - `shiny`, `flexdashboard`, `plotly`, `leaflet`: visualizações dinâmicas para agricultores, técnicos e gestores.
+
+---
+
+## ✅ Conclusão
+
+> O **R** é uma ferramenta **gratuita, poderosa e flexível**, com uma comunidade ativa e foco em **ciência aberta**.
+
+- Integra **ensino, pesquisa e extensão**.
+- Fortalece a formação profissional e a inovação no campo. 🌾
+
+
+
+
+---
+
+## Referências
+::: {layout-ncol="3"}
+[![](figs/eambr.png)](https://bendeivide.github.io/book-eambr01/)
+
+[![](figs/book_olivoto.png)](https://tiagoolivoto.github.io/e-bookr/index.html)
+
+[![](figs/r4ds.png)](https://r4ds.had.co.nz/)
+:::
+
+---
+
+## 🚀 Hands-on!
