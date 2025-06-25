@@ -58,7 +58,9 @@ library(tidyverse)
 library(scales)
 library(glue)
 # dfc <- cran_downloads("R", from = "2000-01-01", to = "2025-06-25")
-df2 <- read.csv("download_r.csv")
+df2 <- 
+  read.csv("download_r.csv") |> 
+  mutate(date = ymd(date))
 # df2 <- 
 #   dfp |> 
 #   filter(count != 0 & os != "NA") |> 
@@ -173,7 +175,13 @@ ggplot(b, aes(x = date)) +
 
 ## Top pacotes
 ```{r}
+library(cranlogs)
+df <- 
+  cran_top_downloads(when = c("last-day", "last-week", "last-month"),
+  count = 10)
 
+ggplot(df, aes(y = reorder(package, count), x = count)) +
+  geom_col()
 ```
 
 
