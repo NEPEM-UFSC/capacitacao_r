@@ -1,15 +1,41 @@
 ---
-title: "desafio"
+title: "desafio da capacitacao R"
+autor: "Vivian"
 format: html
 ---
+# Dados
+## Importar
+```{r}
+df <- read.csv("flax_grains.csv")
+```
+```{r}
+
+```
 
 # Desafio
 
+
 # Construir um histograma de frequência
+```{r}
+hist(df$length, nclass = 100)
+abline(v = mean(df$length), col = "red")
+```
+
 
 # Construir um boxplot
+```{r}
+boxplot(df$length)
 
-# Calcular as principais estatísticas descritivas
+```
+
+# Calcular as principais estatísticas descritivas da variavel lenght
+```{r}
+m <- mean (df$length)
+m
+mediana <- median(df$length)
+mediana
+
+```
 
 # Final
 
