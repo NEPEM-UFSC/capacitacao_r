@@ -14,6 +14,7 @@ df <- read.csv("flax_grains.csv")
 
 # Desafio
 
+
 # Construir um histograma de frequência
 ```{r}
 hist(df$length, nclass = 100)
