@@ -1,15 +1,39 @@
 ---
-title: "desafio"
+title: "Desafio da capacitação R"
+author: "Olivoto"
 format: html
 ---
 
-# Desafio
+
+
+# Dados
+```{r}
+df <- read.csv("flax_grains.csv")
+```
 
 # Construir um histograma de frequência
 
+```{r}
+hist(df$length, nclass = 100)
+abline(v = mean(df$length), col = "red")
+
+```
+
 # Construir um boxplot
+```{r}
+boxplot(df$length)
+abline(h = mean(df$length), col = "red")
+
+```
 
 # Calcular as principais estatísticas descritivas
+```{r}
+m <- mean(df$length)
+mediana <- median(df$length)
+
+```
+
+
 
 # Final
 
