@@ -4,6 +4,7 @@ author: "Olivoto"
 format: html
 ---
 
+
 # Dados
 ```{r}
 df <- read.csv("flax_grains.csv")
